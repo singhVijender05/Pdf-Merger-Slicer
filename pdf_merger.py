@@ -51,3 +51,23 @@ def splitpdf(input_file,page_limit):
         print(f'created output file as {output_file}')
 
 
+#function to create a pdf based on start and end page 
+def splitpdf(input_file,start_page,end_page):
+    #configure pdf reader
+    pdf_reader=PyPDF2.PdfReader(input_file)
+    #now this pdfReader can access all the content or you can say pages
+    total_pages=len(pdf_reader.pages)
+    start=start_page-1
+    end= total_pages if total_pages<end_page else end_page
+    #name output file now
+    output_file=f'output_{start+1}-{end}.pdf'
+    pdf_writer=PyPDF2.PdfWriter()
+    for i_page in range(start,end):
+        page=pdf_reader.pages[i_page]
+        pdf_writer.add_page(page) #add page to writer
+    with open(output_file,"wb") as outputFile:
+        # now writer will write all the pages to output file
+        pdf_writer.write(outputFile)
+    print(f'created output file as {output_file}')
+
+
